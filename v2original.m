@@ -1,7 +1,7 @@
 iterations = 1700;
 %beta = 0.95;
 %gamma = 0.0035;
-crystal_size = 301;
+crystal_size = 101;
 
 %A = generate_flake(iterations, beta, gamma, crystal_size);
 %drawing(A, beta);
