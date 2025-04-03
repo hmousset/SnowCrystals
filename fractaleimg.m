@@ -1,5 +1,5 @@
 % Read the image file
-img = imread('Untitled.jpg');
+img = imread('stellar.jpg');
 
 % Convert to grayscale if the image is RGB
 if size(img, 3) == 3
@@ -22,7 +22,7 @@ function D = fractal_dimension(A, show)
     end
     
     % Ensure A is binary (crystal presence or absence)
-    threshold = 0.1; % Adjust as needed for structure detection
+    threshold = 0.8; % Adjust as needed for structure detection
     A_binary = A > threshold;
     
     % Get size of the grid
@@ -49,7 +49,10 @@ function D = fractal_dimension(A, show)
     % Perform linear regression on log-log data
     p = polyfit(log_sizes, log_counts, 1);
     D = p(1); % The slope gives the fractal dimension
-    
+    A = 1.550965;
+    B =-0.029269;
+
+    gamma = exp(1/B*log(D/A))
     % Display results if show is true
     if show
         figure;

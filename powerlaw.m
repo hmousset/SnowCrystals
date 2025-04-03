@@ -1,4 +1,24 @@
 % Calcul de la moyenne sur i (pour chaque j)
+load('final.mat'); % Chargement des données
+
+figure(1);
+for i = 1:length(betas)-2
+    beta = betas(i);
+    hold on
+    % plot results for each beta
+    plot(gammas, D_values(i, :), 'Color', [0.5, 0.5, 0.5], 'LineWidth', 2, 'DisplayName', ['Beta = ', num2str(beta)]);
+end
+
+%hold off;
+xlabel('\gamma');
+ylabel('Dimension de recouvrement (D)');
+title('Dimension de recouvrement D(\gamma) pour différents \beta');
+legend('show');
+grid on;
+
+
+
+
 D_mean = mean(D_values,1);
 
 % Définition des indices j (qui représentent gamma γ)

@@ -1,4 +1,4 @@
-iterations = 1700;
+iterations = 5000;
 %beta = 0.95;
 %gamma = 0.0035;
 crystal_size = 101;
@@ -6,14 +6,14 @@ crystal_size = 101;
 %A = generate_flake(iterations, beta, gamma, crystal_size);
 %drawing(A, beta);
 %fractal_dimension(A)
-mode =1;
+mode = 0;
 
-if mode ==0
+if mode == 0
     tic
-    seuil =300;
-    beta = 0.80;
-    gamma1 = 0.0005;
-    gamma2 = 0.001;
+    seuil =200;
+    beta = 0.35;
+    gamma1 = 0.0001;
+    gamma2 = 0.0005;
     A = generate_flake_radial(iterations, beta, gamma1,gamma2, crystal_size);
     drawing(A, beta);
     %fractal_dimension(A, true);
@@ -39,8 +39,8 @@ end
 if mode == 1
     % Mode 1: Generate and display the flake
     tic
-    beta = 0.6;
-    gamma = 0.002;
+    beta = 0.3;
+    gamma = 0.0001;
     A = generate_flake(iterations, beta, gamma, crystal_size);
     drawing(A, beta);
     %fractal_dimension(A, true);
@@ -79,12 +79,12 @@ end
 
 
 figure(1);
-%for i = 1:length(betas)-2
- %   beta = betas(i);
- %   hold on
-    % Plot results for each beta
- %   plot(gammas, D_values(i, :), 'Color', [0.5, 0.5, 0.5], 'LineWidth', 2, 'DisplayName', ['Beta = ', num2str(beta)]);
-%end
+for i = 1:length(betas)-2
+    beta = betas(i);
+    hold on
+     Plot results for each beta
+    plot(gammas, D_values(i, :), 'Color', [0.5, 0.5, 0.5], 'LineWidth', 2, 'DisplayName', ['Beta = ', num2str(beta)]);
+end
 
 %hold off;
 xlabel('\gamma');
@@ -101,27 +101,9 @@ function A = generate_flake(iterations, beta, gamma, crystal_size)
     % Initialisation de la matrice d'état
     A = beta * ones(crystal_size*2 + 1, crystal_size*2 + 1);  % Tableau pour stocker les états
 
-    % Définir la zone autour du centre (zone de 30x30 autour du centre)
-    zone_size = 15;
-    center = crystal_size + 1; % Le centre de la grille
+    A(crystal_size +1, crystal_size + 1) = 1; % Centre de cristallisation
+    %A(crystal_size +8, crystal_size + 1) = 1; % Centre de cristallisation
 
-    % Initialiser aléatoirement 7 points dans la zone de 30x30 autour du centre
-    num_initial_points = 7; % Nombre de points à cristalliser
-    rng('shuffle'); % Initialisation de la génération de nombres aléatoires avec une graine aléatoire
-
-    for i = 1:num_initial_points
-        % Choisir une position aléatoire dans la zone autour du centre (de -15 à +15 autour du centre)
-        rand_x = randi([center - zone_size, center + zone_size]);
-        rand_y = randi([center - zone_size, center + zone_size]);
-        
-        % S'assurer que le point est dans les limites de la grille
-        if rand_x >= 1 && rand_x <= size(A, 1) && rand_y >= 1 && rand_y <= size(A, 2)
-            A(rand_x, rand_y) = 1; % Marquer cette position comme cristallisée
-        else
-            % Si le point est en dehors de la grille, réessayer
-            i = i - 1;
-        end
-    end
     
     % Pour simuler la grille hexagonale
     x = -crystal_size:1:crystal_size;
